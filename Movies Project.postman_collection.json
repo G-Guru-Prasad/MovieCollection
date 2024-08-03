@@ -1,0 +1,169 @@
+{
+	"info": {
+		"_postman_id": "254a977a-94e7-472f-935f-ad87f10c7aee",
+		"name": "Movies Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "37387616"
+	},
+	"item": [
+		{
+			"name": "User resgistration",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"user1\",\r\n    \"password\":\"user1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8000/register/"
+			},
+			"response": []
+		},
+		{
+			"name": "Get movies",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIyNzYxMTQwLCJpYXQiOjE3MjI2NzQ3NDAsImp0aSI6IjRiYjIxYmEzYTM3MzRjZWFiNGE1MjU3MzRmYjYwYjEzIiwidXNlcl9pZCI6N30.AJtWXYZHqdVCKAFOo3gGgK369JMpkXbyi8-fA7ilwOA"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8000/movies/"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Collection",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIyNzYxMTQwLCJpYXQiOjE3MjI2NzQ3NDAsImp0aSI6IjRiYjIxYmEzYTM3MzRjZWFiNGE1MjU3MzRmYjYwYjEzIiwidXNlcl9pZCI6N30.AJtWXYZHqdVCKAFOo3gGgK369JMpkXbyi8-fA7ilwOA"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"My Collection\",\r\n    \"description\": \"This is my movie collection.\",\r\n    \"movies\": [\r\n        {\r\n            \"title\": \"Movie 1\",\r\n            \"description\": \"Description of movie 1\",\r\n            \"genres\": \"Action,Adventure\",\r\n            \"uuid\": \"123e4567-e89b-12d3-a456-426614174000\"\r\n        },\r\n        {\r\n            \"title\": \"Movie 2\",\r\n            \"description\": \"Description of movie 2\",\r\n            \"genres\": \"Drama\",\r\n            \"uuid\": \"123e4567-e89b-12d3-a456-426614174001\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8000/collection/"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Collections",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIyNzYxMTQwLCJpYXQiOjE3MjI2NzQ3NDAsImp0aSI6IjRiYjIxYmEzYTM3MzRjZWFiNGE1MjU3MzRmYjYwYjEzIiwidXNlcl9pZCI6N30.AJtWXYZHqdVCKAFOo3gGgK369JMpkXbyi8-fA7ilwOA"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8000/collection/"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Collection",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIyNzA0NzE2LCJpYXQiOjE3MjI2MTgzMTYsImp0aSI6ImIxYTMwNDlhMWNjZTQ1NjM4YjQ1MWMwZDc4NzE3NThmIiwidXNlcl9pZCI6Nn0.q0jQUb3D7AVc4Vi4KnSj283GP6wK8r8PEF5wFdJTOiU"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8000/collection/a1bf3ce8-e389-47bb-8de8-3bbf6641dc98/"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Collection",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIyNzYxMTQwLCJpYXQiOjE3MjI2NzQ3NDAsImp0aSI6IjRiYjIxYmEzYTM3MzRjZWFiNGE1MjU3MzRmYjYwYjEzIiwidXNlcl9pZCI6N30.AJtWXYZHqdVCKAFOo3gGgK369JMpkXbyi8-fA7ilwOA"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Updated Collection Title\",\r\n  \"description\": \"Updated description of the collection.\",\r\n  \"movies\": [\r\n    {\r\n      \"title\": \"Updated Movie 1\",\r\n      \"description\": \"Updated description of movie 1\",\r\n      \"genres\": \"Action,Adventure\",\r\n      \"uuid\": \"123e4567-e89b-12d3-a456-426614174000\"\r\n    },\r\n    {\r\n      \"title\": \"Updated Movie 2\",\r\n      \"description\": \"Updated description of movie 2\",\r\n      \"genres\": \"Drama\",\r\n      \"uuid\": \"123e4567-e89b-12d3-a456-426614174001\"\r\n    }\r\n  ]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8000/collection/07fb04e9-4247-446e-8a4a-74d2c3ef3a85/"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Collection",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIyNzYxMTQwLCJpYXQiOjE3MjI2NzQ3NDAsImp0aSI6IjRiYjIxYmEzYTM3MzRjZWFiNGE1MjU3MzRmYjYwYjEzIiwidXNlcl9pZCI6N30.AJtWXYZHqdVCKAFOo3gGgK369JMpkXbyi8-fA7ilwOA"
+					}
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:8000/collection/86409391-8bb6-46f2-9610-c912c8432147/"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Request Count",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIyNzYxMTQwLCJpYXQiOjE3MjI2NzQ3NDAsImp0aSI6IjRiYjIxYmEzYTM3MzRjZWFiNGE1MjU3MzRmYjYwYjEzIiwidXNlcl9pZCI6N30.AJtWXYZHqdVCKAFOo3gGgK369JMpkXbyi8-fA7ilwOA"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8000/request-count/"
+			},
+			"response": []
+		},
+		{
+			"name": "Reset Request Count",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIyNzYxMTQwLCJpYXQiOjE3MjI2NzQ3NDAsImp0aSI6IjRiYjIxYmEzYTM3MzRjZWFiNGE1MjU3MzRmYjYwYjEzIiwidXNlcl9pZCI6N30.AJtWXYZHqdVCKAFOo3gGgK369JMpkXbyi8-fA7ilwOA"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"url": "http://localhost:8000/request-count/reset/"
+			},
+			"response": []
+		}
+	]
+}
