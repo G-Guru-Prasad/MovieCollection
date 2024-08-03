@@ -7,30 +7,27 @@ from .models import User, Collection, Movie
 import uuid
 from django.core.cache import cache
 from .factories import UserFactory, CollectionFactory, MovieFactory
+import logging
+logger = logging.getLogger(__name__)
+
 
 class UserRegistrationTest(APITestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.url = reverse('register')  # Make sure 'register' is the name of the URL pattern for your registration endpoint
+        self.url = reverse('register')
         self.user_data = {
             'username': 'testuser',
             'password': 'testpassword'
         }
 
     def test_user_registration(self):
-        # Send a POST request to register a new user
         response = self.client.post(self.url, self.user_data, format='json')
-        
-        # Check if the response status code is 201 CREATED
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-
-        # Check if the response contains an access token
         self.assertIn('access_token', response.data)
-
-        # Check if the user was created
         user_exists = User.objects.filter(username=self.user_data['username']).exists()
         self.assertTrue(user_exists)
+        print("User registration testing completed")
 
 class MoviesAPITest(APITestCase):
     def setUp(self):
@@ -38,32 +35,21 @@ class MoviesAPITest(APITestCase):
         self.token = RefreshToken.for_user(self.user).access_token
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token}')
 
-        self.url = reverse('movies')  # Replace 'get_movies' with the actual name of your movies URL pattern
+        self.url = reverse('movies')
 
     def test_movies_list(self):
-        # Create some movie instances using Factory Boy
+        # Creating some movie instances using Factory Boy
         for _ in range(10):
             MovieFactory()
 
-        # Make the GET request
         response = self.client.get(self.url)
-
-        # Check the status code
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-        # Parse the response JSON
         data = response.json()
-
-        # Check the structure of the response
         self.assertIn('count', data)
         self.assertIn('next', data)
         self.assertIn('previous', data)
         self.assertIn('results', data)
 
-        # Check the count of movies
-        # self.assertEqual(data['count'], Movie.objects.count())
-
-        # Check the data list
         self.assertIsInstance(data['results'], list)
         for movie in data['results']:
             self.assertIn('title', movie)
@@ -71,15 +57,16 @@ class MoviesAPITest(APITestCase):
             self.assertIn('genres', movie)
             self.assertIn('uuid', movie)
 
+        print("Get movies list testing completed")
+
 class CollectionTests(APITestCase):
 
     def setUp(self):
         self.user = UserFactory()
         self.token = RefreshToken.for_user(self.user).access_token
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token}')
-        
-        self.collection = CollectionFactory(user=self.user)
 
+        self.collection = CollectionFactory(user=self.user)
         self.movie = MovieFactory()
         self.collection.movies.add(self.movie)
 
@@ -100,6 +87,7 @@ class CollectionTests(APITestCase):
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertIn('collection_uuid', response.data)
+        print("Create movies list testing completed")
 
     def test_get_collection(self):
         url = reverse('collection', kwargs={'collection_uuid': self.collection.uuid})
@@ -108,6 +96,7 @@ class CollectionTests(APITestCase):
         self.assertEqual(response.data['title'], self.collection.title)
         self.assertEqual(response.data['description'], self.collection.description)
         self.assertEqual(len(response.data['movies']), 1)
+        print("Get movies list testing completed")
 
     def test_update_collection(self):
         url = reverse('collection', kwargs={'collection_uuid': self.collection.uuid})
@@ -128,6 +117,7 @@ class CollectionTests(APITestCase):
         self.collection.refresh_from_db()
         self.assertEqual(self.collection.title, "Updated Collection")
         self.assertEqual(self.collection.description, "Updated Description")
+        print("Updating movies list testing completed")
 
     def test_delete_collection(self):
         url = reverse('collection', kwargs={'collection_uuid': self.collection.uuid})
@@ -136,12 +126,14 @@ class CollectionTests(APITestCase):
         self.assertFalse(Collection.objects.filter(uuid=self.collection.uuid).exists())
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        print("Deleting movies list testing completed")
 
     def test_get_all_collections(self):
         url = reverse('collection')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertGreater(len(response.data['collections']), 0)
+        print("Get all movies list testing completed")
 
 
 class RequestCountTest(APITestCase):
@@ -151,27 +143,23 @@ class RequestCountTest(APITestCase):
         self.token = RefreshToken.for_user(self.user).access_token
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token}')
 
-        self.get_request_count_url = reverse('request-count')  # Assuming the URL pattern name is 'request-count'
-        self.reset_request_count_url = reverse('request-count-reset')  # Assuming the URL pattern name is 'reset-request-count'
+        self.get_request_count_url = reverse('request-count')
+        self.reset_request_count_url = reverse('request-count-reset')
 
     def test_request_count(self):
-        # Reset the request count before starting the test
         cache.set('request_count', 0)
 
-        # Simulate some requests
         for _ in range(5):
             self.client.get(self.get_request_count_url)
-
-        # Check the request count
+        
         response = self.client.get(self.get_request_count_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['request_count'], 6) #asserting 6 because one more req will be set for getting the count
+        print("Get request count testing completed")
 
-    def test_reset_request_count(self):
-        # Reset the request count before starting the test
+    def test_reset_request_count(self):        
         cache.set('request_count', 0)
 
-        # Simulate some requests
         for _ in range(5):
             self.client.get(self.get_request_count_url)
 
@@ -180,10 +168,10 @@ class RequestCountTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['message'], 'request count reset successfully')
 
-        # Check the request count after reset
         response = self.client.get(self.get_request_count_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['request_count'], 1) #asserting 1 because one more req will be set for getting the count
+        print("Resetting request count testing completed")
 
 # Using threading to test request count for concurrent requests
 class ParallelRequestTest(APITestCase):
@@ -217,3 +205,4 @@ class ParallelRequestTest(APITestCase):
 
         response = self.client.get(self.request_count_url)
         self.assertEqual(response.data['request_count'], num_threads+1) #asserting +1 because one more req will be set for getting the count
+        print("Get request count for concurrent requests testing completed")

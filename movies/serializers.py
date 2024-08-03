@@ -16,24 +16,14 @@ class CollectionSerializer(serializers.ModelSerializer):
         extra_kwargs = {'user': {'read_only': True}}
 
     def to_representation(self, instance):
-        """
-        Convert the instance to a dictionary representation.
-        """
+        # Convert the instance to a dictionary representation according to response format.
         representation = super().to_representation(instance)
-        # Customize the response format
+        
         return {
             'title': representation['title'],
             'description': representation['description'],
             'movies': representation['movies']
         }
-
-# class ResponseCollectionSerializer(serializers.ModelSerializer):
-#     movies = MovieSerializer(many=True, read_only=True)
-
-#     class Meta:
-#         model = Collection
-#         fields = ['title', 'description', 'movies']
-#         extra_kwargs = {'user': {'read_only': True}}
 
 class UserCollectionsSerializer(serializers.Serializer):
     is_success = serializers.BooleanField(default=True)

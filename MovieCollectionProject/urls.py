@@ -29,7 +29,8 @@ urlpatterns = [
     url(r'^register/', RegisterUser.as_view(), name='register'),
     path('request-count/', RequestCount.as_view(), name='request-count'),
     path('request-count/reset/', ResetRequestCount.as_view(), name='request-count-reset'),
-    path('collection/', CollectionViewSet.as_view(), name='collection'), # can also use CollectionViewSet.as_view({"put":"updateCollection"})
+    # can also use CollectionViewSet.as_view({"put":"updateCollection"})
+    path('collection/', CollectionViewSet.as_view(), name='collection'), 
     path('collection/<uuid:collection_uuid>/', CollectionViewSet.as_view(), name='collection'),
 ]
 

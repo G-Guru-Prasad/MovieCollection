@@ -53,12 +53,14 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt'
 ]
 
+# JWT token
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ]
 }
 
+# Used for mainting request counts
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
@@ -66,6 +68,7 @@ CACHES = {
     }
 }
 
+# JWT token settings
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
@@ -81,7 +84,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'movies.middleware.RequestCounterMiddleware' # custom middle ware
+    'movies.middleware.RequestCounterMiddleware' # custom middleware
 ]
 
 ROOT_URLCONF = 'MovieCollectionProject.urls'

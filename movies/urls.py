@@ -9,7 +9,8 @@ from .views import html_render
 # router.register(r'collections', CollectionViewSet)
 # router = DefaultRouter()
 # router.register(r'collections', CollectionViewSet)
+
 urlpatterns = [
     # path('', include(router.urls)),  # Include router URLs
-    path('', html_render, name='home'),  # Ensure to end with a slash for consistency
+    path('', html_render, name='home'),
 ]
